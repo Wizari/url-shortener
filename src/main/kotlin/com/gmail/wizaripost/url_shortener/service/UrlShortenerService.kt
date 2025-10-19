@@ -3,6 +3,7 @@ package com.gmail.wizaripost.url_shortener.service
 import com.gmail.wizaripost.url_shortener.model.ShortUrl
 import com.gmail.wizaripost.url_shortener.repository.ShortUrlRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
@@ -24,7 +25,7 @@ class UrlShortenerService(
     fun findActiveUrlByShortKey(shortKey: String): ShortUrl? {
         return shortUrlRepository.findActiveByShortKey(shortKey, LocalDateTime.now())
     }
-
+    @Transactional
     fun incrementClick(shortKey: String) {
         shortUrlRepository.incrementClickCount(shortKey)
     }
