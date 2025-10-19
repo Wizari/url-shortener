@@ -1,0 +1,41 @@
+#version: '3.5'
+
+services:
+
+  url-shortener-db:
+    image: postgres:15
+    volumes:
+      - ./data/postgres_url_shortener_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: url_shortener
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: urlshortener-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin  # сохраняем сессии и настройки pgAdmin
+    depends_on:
+      - url-shortener-db
+
+#services:
+
+#  gpt-db:
+#    image: postgres:15
+#    volumes:
+#      - ./data/postgres_gpt_data:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: url_shortener
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: password
+#    ports:
+#      - "5434:5432"
+#
